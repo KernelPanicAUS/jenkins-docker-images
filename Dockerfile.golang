@@ -1,0 +1,37 @@
+FROM jenkins/jnlp-slave:4.6-1
+
+USER root
+
+ARG VAULT_VERSION=1.5.3
+ARG PACKER_VERSION=1.6.2
+ARG TERRAFORM_VERSION=0.14.2
+ARG KUBECTL_VERSION=1.18.0
+ARG HELM_VERSION=3.1.2
+
+RUN echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_10/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list \
+  && curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_10/Release.key | apt-key add - \
+  && apt-get update
+
+RUN apt-get update && apt-get dist-upgrade -y \
+      && apt-get install -y \
+        git \
+        apt-transport-https \
+        curl \
+        init \
+        openssh-server openssh-client \
+        software-properties-common \
+        unzip \
+        jq \
+        python3-pip \
+        golang \
+        buildah \
+      && rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+
+RUN git clone https://github.com/tfutils/tfenv.git /home/jenkins/.tfenv \
+      && export PATH="/home/jenkins/.tfenv/bin:${PATH}" \
+      && tfenv install ${TERRAFORM_VERSION} \
+      && tfenv use ${TERRAFORM_VERSION}
+
+ENV PATH "$PATH:/home/jenkins/.tfenv/bin"
