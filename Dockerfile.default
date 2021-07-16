@@ -33,6 +33,9 @@ RUN apt-get update && apt-get dist-upgrade -y \
     && tar -zxvf google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz \
     && ./google-cloud-sdk/install.sh \
     
+    #### install serverless
+    && curl -o- -L https://slss.io/install | bash \
+
     #### upgrade pip
     && pip3 install --upgrade pip \
     
