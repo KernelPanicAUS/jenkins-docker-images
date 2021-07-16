@@ -31,7 +31,7 @@ RUN apt-get update && apt-get dist-upgrade -y \
     #### install gcloud cli 
     && curl -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz" \
     && tar -zxvf google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz \
-    && ./google-cloud-sdk/install.sh
+    && ./google-cloud-sdk/install.sh \
 
     #### install boto3
     && pip3 install -U boto3 checkov pre-commit \
