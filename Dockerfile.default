@@ -32,7 +32,10 @@ RUN apt-get update && apt-get dist-upgrade -y \
     && curl -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz" \
     && tar -zxvf google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz \
     && ./google-cloud-sdk/install.sh \
-
+    
+    #### upgrade pip
+    && pip3 install --upgrade pip \
+    
     #### install boto3
     && pip3 install -U boto3 checkov pre-commit \
 
