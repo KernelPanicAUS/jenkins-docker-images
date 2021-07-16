@@ -9,6 +9,7 @@ ARG KUBECTL_VERSION=1.18.0
 ARG HELM_VERSION=3.5.1
 ARG ANSIBLE_VERSION=2.10.3
 ARG TERRAFORM_DOCS_VERSION=0.10.1
+ARG GCLOUD_VERSION=348.0.0
 
 RUN apt-get update && apt-get dist-upgrade -y \
       && apt-get install -y \
@@ -26,6 +27,11 @@ RUN apt-get update && apt-get dist-upgrade -y \
     #### install aws cli
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
       && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf aws \
+      
+    #### install gcloud cli 
+    && curl -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz" \
+    && tar -zxvf google-cloud-sdk-${GCLOUD_VERSION}-linux-x86_64.tar.gz \
+    && ./google-cloud-sdk/install.sh
 
     #### install boto3
     && pip3 install -U boto3 checkov pre-commit \
